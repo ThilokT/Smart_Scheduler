@@ -1,0 +1,37 @@
+name: Smart Scheduler Cron
+
+on:
+  schedule:
+    # Runs every 10 minutes
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  run-scheduler:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Set up credentials and tokens
+      run: |
+        echo '${{ secrets.CREDENTIALS_JSON }}' > credentials.json
+        echo '${{ secrets.TOKEN_JSON }}' > token.json
+
+    - name: Run Smart Scheduler
+      run: |
+        python smart_scheduler.py --max-messages 20
+
+    # Optional: If the token.json is refreshed, you might need to commit it back,
+    # but normally Google refresh tokens live long enough unless revoked.
