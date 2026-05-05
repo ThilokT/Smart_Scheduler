@@ -175,6 +175,40 @@ python smart_scheduler.py --timezone "Europe/London"
 | `--timezone` | Target timezone for events | `America/New_York` |
 | `--no-mark-read` | Don't mark processed emails as read | False |
 
+### Windows Quick Commands
+
+> **Note:** All commands below assume you are in the project directory and using the virtual environment.
+
+**1. Control number of emails processed at a time:**
+
+```powershell
+.\venv\Scripts\python.exe smart_scheduler.py --max-messages 5
+```
+
+Change `5` to whatever limit you want (default is `10`).
+
+**2. Run automatically (daemon mode — checks your inbox on a loop):**
+
+```powershell
+.\venv\Scripts\python.exe smart_scheduler.py --daemon --interval 15
+```
+
+This checks your inbox **every 15 minutes** continuously. Change `15` to your preferred interval in minutes. Press `Ctrl+C` to stop.
+
+**3. Both — automatic mode with a mail limit per cycle:**
+
+```powershell
+.\venv\Scripts\python.exe smart_scheduler.py --daemon --interval 15 --max-messages 5
+```
+
+This runs continuously, checking every 15 minutes, but processes **at most 5 emails** per cycle.
+
+**View all available options anytime:**
+
+```powershell
+.\venv\Scripts\python.exe smart_scheduler.py --help
+```
+
 ## Email Format Examples
 
 The system can parse various natural language formats:
